@@ -34,7 +34,7 @@ public class OfferManagement {
 	public StreamsConfig kStreamsConfigs(KafkaProperties kafkaProperties) {
 		Map<String, Object> props = new HashMap<>();
 		props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, BROKER_URL);
-		props.put(StreamsConfig.APPLICATION_ID_CONFIG, "testStreams");
+		props.put(StreamsConfig.APPLICATION_ID_CONFIG, "testStream");
 		props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
 		props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
 
@@ -45,7 +45,7 @@ public class OfferManagement {
 	public KStream<String, String> kStream(StreamsBuilder builder) {
 
 		RulesApplier rulesApplier = new RulesApplier();
-		final KStream<String, String> inputTopic = builder.stream(INPUT_TOPIC);
+		final KStream<String, String> inputTopic = builder.stream(OUTPUT_TOPIC);
 
 		KStream<String, String> outputData = inputTopic.map((x,y) -> new KeyValue<String,String>(x,rulesApplier.processTransactionDMN(x,y)));
 		//Branch all not null events

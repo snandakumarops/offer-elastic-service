@@ -5,17 +5,49 @@ import com.google.gson.Gson;
 
 import com.myspace.offermanagement.customerModel.CustomerModel;
 import com.myspace.offermanagement.customerModel.PastHistoryModel;
+import com.redhat.offerManagement.CustomerOfferModel;
 import com.redhat.offerManagement.EventStreamModel;
 import com.redhat.offerManagement.JdgCustomerRepository;
 import com.redhat.offermanagement.CustomerRepository;
 import com.redhat.offermanagement.JdgPastHistRepository;
 import com.redhat.offermanagement.PastHistoryRepository;
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.AuthCache;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.*;
+import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
+import org.apache.http.ssl.SSLContexts;
 import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieSession;
 import org.kie.dmn.api.core.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import java.io.DataOutputStream;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Collection;
 
 
@@ -34,35 +66,56 @@ public class RulesApplier {
 
 
 
-    public String processTransactionDMN(String key,String value) {
+    public String processTransactionDMN(String key, String value) {
+        try {
 
-        EventStreamModel eventModel = new Gson().fromJson(value,EventStreamModel.class);
+            String httpsURL = "https://elasticsearch-sample-elastic.apps.cluster-florida-ee6b.florida-ee6b.example.opentlc.com/offer/off";
 
-         CustomerRepository customerRepository = new JdgCustomerRepository();
-         PastHistoryRepository pastHistoryRepository = new JdgPastHistRepository();
+            HttpHost targetHost = new HttpHost("localhost", 8082, "http");
+            CredentialsProvider credsProvider = new BasicCredentialsProvider();
+            credsProvider.setCredentials(AuthScope.ANY,
+                    new UsernamePasswordCredentials("elastic", "vzg89xjlq2gfdj4jgk479bhx"));
+
+            AuthCache authCache = new BasicAuthCache();
+            authCache.put(targetHost, new BasicScheme());
+            HttpClientContext context = HttpClientContext.create();
+            context.setCredentialsProvider(credsProvider);
+            context.setAuthCache(authCache);
+
+            HttpClient client = HttpClientBuilder.create().build();
+            ResponseEntity<String> response = client.execute(
+                    new HttpPost(httpsURL);
 
 
-        DMNRuntime dmnRuntime = RulesSessionFactory.createDMNRuntime();
-        String namespace = "https://kiegroup.org/dmn/_394B8012-7D73-4D4E-B6A3-088C14D828D9";
-        String modelName = "OfferPredictionDMN";
-        DMNModel dmnModel = dmnRuntime.getModel(namespace, modelName);
 
-        CustomerModel customerModel = customerRepository.getCustomer(key);
-        PastHistoryModel pastHistoryModel = pastHistoryRepository.getPastHist(key);
+            TrustStrategy acceptingTrustStrategy = (cert, authType) -> true;
+            SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext,
+                    NoopHostnameVerifier.INSTANCE);
 
-        DMNContext dmnContext = dmnRuntime.newContext();
-        dmnContext.set("Age", customerModel.getAge());
-        dmnContext.set("Income",customerModel.getIncome());
-        dmnContext.set("Customer Class",customerModel.getCustomerClass());
-        dmnContext.set("Qualified Purchases",pastHistoryModel.getQualifiedPurchases());
-        dmnContext.set("Last Offer Response",pastHistoryModel.getLastOfferResponse());
-        dmnContext.set("Current Event",eventModel.getEventValue());
+            Registry<ConnectionSocketFactory> socketFactoryRegistry =
+                    RegistryBuilder.<ConnectionSocketFactory> create()
+                            .register("https", sslsf)
+                            .register("http", new PlainConnectionSocketFactory())
+                            .build();
 
-        DMNResult dmnResult = dmnRuntime.evaluateAll(dmnModel, dmnContext);
-        DMNDecisionResult resultOffer = dmnResult.getDecisionResultById("Offer");
-        String resultOfferPayload = (String)resultOffer.getResult();
-        System.out.println("Results::"+dmnResult.getDecisionResults()+":::" +resultOfferPayload);
-        return resultOfferPayload;
+            BasicHttpClientConnectionManager connectionManager =
+                    new BasicHttpClientConnectionManager(socketFactoryRegistry);
+            CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(sslsf)
+                    .setConnectionManager(connectionManager).build();
+
+            HttpComponentsClientHttpRequestFactory requestFactory =
+                    new HttpComponentsClientHttpRequestFactory(httpClient);
+            ResponseEntity<String> response = new RestTemplate(requestFactory)
+                    .exchange(httpsURL, HttpMethod.POST, null, String.class);
+
+
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
     }
 
 
