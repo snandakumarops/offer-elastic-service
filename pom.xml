@@ -132,7 +132,7 @@
       <plugin>
         <groupId>org.jboss.redhat-fuse</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>7.4.0.fuse-740036-redhat-00002</version>
+        <version>${bom.version}</version>
         <executions>
           <execution>
             <goals>
@@ -140,14 +140,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>8</source>
-          <target>8</target>
-        </configuration>
       </plugin>
 
     </plugins>
