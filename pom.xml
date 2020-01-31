@@ -1,287 +1,86 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 
+
+
 	<groupId>com.redhat</groupId>
-	<artifactId>offer-elastic-resource</artifactId>
-	<version>1.0.0</version>
-	<packaging>jar</packaging>
+	<artifactId>elastic-glue</artifactId>
+	<version>1.0.0.0</version>
 
-	<name>offer-management</name>
-	<description>Offer Management Use case</description>
+	<name>Payment Received Glue for Case Mgmt</name>
+	<description>Payment Received Glue for Case Mgmt</description>
 
-	<build>
-		<plugins>
-			<plugin>
-				<!-- Build an executable JAR -->
-
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-				</plugin>
-				<plugin>
-					<groupId>org.jboss.redhat-fuse</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-					<version>${bom.version}</version>
-					<executions>
-						<execution>
-							<goals>
-								<goal>repackage</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>fabric8-maven-plugin</artifactId>
-				<version>4.0.0</version>
-				<executions>
-					<execution>
-						<id>fmp</id>
-						<goals>
-							<goal>resource</goal>
-							<goal>build</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<enricher>
-						<excludes>
-							<exclude>f8-maven-scm</exclude>
-						</excludes>
-						<!-- ADD HEALTH CHECK HERE -->
-					</enricher>
-				</configuration>
-			</plugin>
-			</plugins>
-
-	</build>
-
-	<repositories>
-		<repository>
-			<id>maven-DM</id>
-			<name>maven-DM</name>
-			<url>http://nexus-nexus.apps.cluster-florida-ee6b.florida-ee6b.example.opentlc.com/repository/maven-DM/</url>
-			<layout>default</layout>
-
-		</repository>
-
-	</repositories>
-
-	<parent>
-
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.6.RELEASE</version>
-		<relativePath/>
-	</parent>
-
-	<properties>
-		<version.org.kie>7.8.0.Final</version.org.kie>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-		<bom.version>7.0.0.fuse-000027-redhat-1</bom.version>
-	</properties>
 	<dependencyManagement>
-
 		<dependencies>
-			<!-- https://mvnrepository.com/artifact/com.redhat.ba/ba-platform-bom -->
 			<dependency>
-				<groupId>com.redhat.ba</groupId>
-				<artifactId>ba-platform-bom</artifactId>
-				<version>7.5.1.redhat-00001</version>
+				<groupId>org.jboss.redhat-fuse</groupId>
+				<artifactId>fuse-springboot-bom</artifactId>
+				<version>7.4.0.fuse-740036-redhat-00002</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 
-
-
 		</dependencies>
 	</dependencyManagement>
 
-
 	<dependencies>
 		<dependency>
-			<groupId>com.myspace</groupId>
-			<artifactId>OfferPrediction</artifactId>
-			<version>1.0.0</version>
-
-			
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-http4-starter</artifactId>
+			<version>2.23.2.fuse-740011-redhat-00001</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-elasticsearch-rest</artifactId>
+			<version>2.23.2.fuse-740011-redhat-00001</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-http4 -->
+
+
+		<dependency>
+			<groupId>org.apache.camel.springboot</groupId>
+			<artifactId>camel-elasticsearch-rest-starter</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+			<version>2.23.2.fuse-740011-redhat-00001</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-kafka</artifactId>
+			<version>2.23.2.fuse-740011-redhat-00001</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-stream</artifactId>
+			<version>2.23.2.fuse-740011-redhat-00001</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>io.fabric8</groupId>
+			<artifactId>spring-cloud-kubernetes-core</artifactId>
+			<version>0.1.6.fuse-740017-redhat-00001</version>
+		</dependency>
+
+		<!-- Enabling health checks -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+			<version>2.1.8.RELEASE</version>
 		</dependency>
-		<dependency>
-			<groupId>offermanagement</groupId>
-			<artifactId>customer-repository-jdg</artifactId>
-			<version>1.0.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>offermanagment</groupId>
-			<artifactId>customer-repository</artifactId>
-			<version>1.0.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.myspace</groupId>
-			<artifactId>customer-model</artifactId>
-			<version>1.0.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-
-
-		<dependency>
-			<groupId>offermanagement</groupId>
-			<artifactId>past-history-repository</artifactId>
-			<version>1.0.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>offermanagement</groupId>
-			<artifactId>past-history-repository-jdg</artifactId>
-			<version>1.0.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-
-		</dependency>
-		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-streams</artifactId>
-
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.assertj</groupId>
-			<artifactId>assertj-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.kie</groupId>
-			<artifactId>kie-internal</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kie</groupId>
-			<artifactId>kie-ci</artifactId>
-
-		</dependency>
-
-		<dependency>
-			<groupId>org.kie</groupId>
-			<artifactId>kie-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-scala_2.11</artifactId>
-			<version>2.8.8</version>
-		</dependency>
-
-
-
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-templates</artifactId>
-
-		</dependency>
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-compiler</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.infinispan</groupId>
-			<artifactId>infinispan-client-hotrod</artifactId>
-			<version>8.5.3.Final-redhat-00002</version>
-		</dependency>
-		<dependency>
-			<groupId>org.infinispan</groupId>
-			<artifactId>infinispan-commons</artifactId>
-			<version>8.5.3.Final-redhat-00002</version>
-
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-workbench-models-datamodel-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-decisiontables</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-workbench-models-commons</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-workbench-models-guided-dtable</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-workbench-models-guided-template</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.json</groupId>
-			<artifactId>javax.json-api</artifactId>
-			<version>1.0</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.kie/kie-dmn-jpmml -->
-		<dependency>
-			<groupId>org.kie</groupId>
-			<artifactId>kie-dmn-jpmml</artifactId>
-			<version>7.27.0.Final</version>
-		</dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.jpmml/pmml-evaluator -->
-        <dependency>
-            <groupId>org.jpmml</groupId>
-            <artifactId>pmml-evaluator</artifactId>
-            <version>1.4.9</version>
-        </dependency>
-		<!-- https://mvnrepository.com/artifact/org.jpmml/pmml-evaluator-extension -->
-		<dependency>
-			<groupId>org.jpmml</groupId>
-			<artifactId>pmml-evaluator-extension</artifactId>
-			<version>1.4.9</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.8.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>kie-pmml</artifactId>
-
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-undertow</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<version>2.1.4.RELEASE-redhat-00001</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -290,20 +89,65 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
+			<version>2.1.4.RELEASE-redhat-00001</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-core</artifactId>
-			<version>2.21.0.fuse-720050-redhat-00001</version>
+			<artifactId>camel-spring-boot-starter</artifactId>
+			<version>2.23.2.fuse-740011-redhat-00001</version>
+		</dependency>
+
+		<!-- testing -->
+
+
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1.0.redhat-8</version>
 		</dependency>
 		<dependency>
-			<groupId>org.kie</groupId>
-			<artifactId>kie-dmn-core</artifactId>
-
+			<groupId>org.apache.commons.ssl</groupId>
+			<artifactId>not-yet-commons-ssl</artifactId>
+			<version>0.3.11-redhat-2</version>
 		</dependency>
-
 
 	</dependencies>
 
+	<build>
+		<plugins>
+			<plugin>
+				<!-- Build an executable JAR -->
 
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jboss.redhat-fuse</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>7.4.0.fuse-740036-redhat-00002</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>8</source>
+					<target>8</target>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
 
 
 </project>
