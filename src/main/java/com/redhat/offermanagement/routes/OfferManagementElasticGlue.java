@@ -36,12 +36,12 @@ public class OfferManagementElasticGlue extends RouteBuilder {
 
 	private static final Logger LOG = LoggerFactory.getLogger(OfferManagementElasticGlue.class);
 
-	private String kafkaBootstrap = System.getenv("BOOTSTRAP_SERVERS");
-	private String offerTopic = System.getenv("OFFER_TOPIC");
-	private String consumerMaxPollRecords = System.getenv("CONSUMER_MAX_POLL_RECORDS");
-	private String consumerCount = System.getenv("CONSUMER_COUNT");
-	private String consumerSeekTo = System.getenv("CONSUMER_SEEK_TO");
-	private String consumerGroup = System.getenv("CONSUMER_GROUP");
+	private String kafkaBootstrap = "my-cluster-kafka-bootstrap:9092";
+	private String offerTopic = "offer-output";
+	private String consumerMaxPollRecords = "500";
+	private String consumerCount = "1";
+	private String consumerSeekTo = "end";
+	private String consumerGroup = "elastic-glue";
 
 
 	@Override
