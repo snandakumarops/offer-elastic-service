@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    name: rtp-elastic-glue
+  spec:
+    tags:
+    - from:
+        kind: ImageStreamImage
+        name: rtp-elastic-glue@sha256:0ee7f719f066acc4aa392439118813d81d8102722419f9a37491ad824466757e
+        namespace: rtp-reference
+      name: 1.0.0.0

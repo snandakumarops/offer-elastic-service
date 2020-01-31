@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    name: offer-elastic-glue
+  spec:
+    tags:
+    - from:
+        kind: ImageStreamImage
+        name: offer-elastic-glue@sha256:eaac77dea3db14800df4bbf6d4aa9a9f66519b3a09accff4914f2bb8ed17fb2d
+        namespace: offer-management
+      name: 1.0.0.0

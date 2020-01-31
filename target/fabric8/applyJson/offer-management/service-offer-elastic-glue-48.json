@@ -1,0 +1,45 @@
+{
+  "apiVersion" : "v1",
+  "kind" : "Service",
+  "metadata" : {
+    "annotations" : {
+      "fabric8.io/git-branch" : "master",
+      "fabric8.io/git-commit" : "3d717e8b08a3495a04bcf9c89dbb59795f751b30",
+      "fabric8.io/git-url" : "https://github.com/snandakumar87/customer-repository.git",
+      "prometheus.io/port" : "9779",
+      "prometheus.io/scrape" : "true"
+    },
+    "creationTimestamp" : "2020-01-18T03:19:40Z",
+    "labels" : {
+      "app" : "offer-elastic-glue",
+      "expose" : "true",
+      "group" : "com.redhat",
+      "provider" : "fabric8",
+      "version" : "1.0.0.0"
+    },
+    "name" : "offer-elastic-glue",
+    "namespace" : "offer-management",
+    "resourceVersion" : "1443949",
+    "selfLink" : "/api/v1/namespaces/offer-management/services/offer-elastic-glue",
+    "uid" : "5d6ab564-39a1-11ea-b6d4-12f0cee08179"
+  },
+  "spec" : {
+    "clusterIP" : "172.30.114.171",
+    "ports" : [ {
+      "name" : "http",
+      "port" : 8080,
+      "protocol" : "TCP",
+      "targetPort" : 8080
+    } ],
+    "selector" : {
+      "app" : "offer-elastic-glue",
+      "group" : "com.redhat",
+      "provider" : "fabric8"
+    },
+    "sessionAffinity" : "None",
+    "type" : "ClusterIP"
+  },
+  "status" : {
+    "loadBalancer" : { }
+  }
+}

@@ -1,0 +1,21 @@
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    fabric8.io/git-commit: 3d717e8b08a3495a04bcf9c89dbb59795f751b30
+    fabric8.io/git-branch: master
+    fabric8.io/git-url: https://github.com/snandakumar87/customer-repository.git
+  labels:
+    expose: "true"
+    app: offer-elastic-glue
+    provider: fabric8
+    version: 1.0.0.0
+    group: com.redhat
+  name: offer-elastic-glue
+spec:
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: offer-elastic-glue
