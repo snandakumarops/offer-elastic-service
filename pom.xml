@@ -10,8 +10,13 @@
   <artifactId>elastic-glue</artifactId>
   <version>1.0.0.0</version>
 
-  <name>Payment Received Glue for Case Mgmt</name>
-  <description>Payment Received Glue for Case Mgmt</description>
+  <name>elastic service</name>
+  <description>elastic service</description>
+
+
+    <properties>
+        <bom.version>7.0.0.fuse-000027-redhat-1</bom.version>
+    </properties>
 
   <dependencyManagement>
     <dependencies>
