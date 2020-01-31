@@ -17,7 +17,7 @@
     <properties>
       <maven.compiler.source>1.8</maven.compiler.source>
       <maven.compiler.target>1.8</maven.compiler.target>
-        <bom.version>7.0.0.fuse-000027-redhat-1</bom.version>
+        <bom.version>7.4.0.fuse-740036-redhat-00002</bom.version>
     </properties>
 
   <dependencyManagement>
