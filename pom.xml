@@ -54,6 +54,12 @@
       <artifactId>camel-elasticsearch-rest-starter</artifactId>
       <version>RELEASE</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-bean-validator</artifactId>
+      <version>2.23.2.fuse-740011-redhat-00001</version>
+      <!-- use the same version as your Camel core version -->
+    </dependency>
 
     <dependency>
       <groupId>org.apache.camel</groupId>
