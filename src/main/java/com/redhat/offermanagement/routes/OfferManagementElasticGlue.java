@@ -65,7 +65,7 @@ public class OfferManagementElasticGlue extends RouteBuilder {
 
 
          RestClientBuilder builder = RestClient.builder(
-        new HttpHost("elasticsearch-sample-elastic.apps.cluster-flrida-651b.flrida-651b.example.opentlc.com", 443, "https")).
+        new HttpHost(System.getenv("ROUTEADDR"), 443, "https")).
         setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder
                 .setDefaultCredentialsProvider(credentialsProvider)
                 .setSSLContext(sslContext)
@@ -78,7 +78,6 @@ public class OfferManagementElasticGlue extends RouteBuilder {
 		ElasticsearchComponent elasticsearchComponent = new ElasticsearchComponent();
 
 		elasticsearchComponent.setClient(client.getLowLevelClient());
-//		elasticsearchComponent.setHostAddresses("elasticsearch-sample-elastic.apps.cluster-florida-ee6b.florida-ee6b.example.opentlc.com:443");
 		elasticsearchComponent.setUser("elastic");
 		elasticsearchComponent.setPassword(System.getenv("PASSWORD"));
 		elasticsearchComponent.setEnableSSL(true);
