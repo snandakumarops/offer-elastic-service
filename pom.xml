@@ -152,5 +152,34 @@
 
   </build>
 
+    <profiles>
+        <profile>
+            <id>openshift</id>
+            <repositories>
+
+                <repository>
+                    <id>maven-public</id>
+                    <name>maven-public</name>
+                    <url>${env.NEXUSREPO}/repository/maven-public/</url>
+                </repository>
+
+
+            </repositories>
+            <distributionManagement>
+
+                <repository>
+                    <id>nexus-releases</id>
+                    <name>nexus-releases</name>
+                    <url>${env.NEXUSREPO}/repository/maven-releases/</url>
+                    <layout>default</layout>
+                </repository>
+                <snapshotRepository>
+                    <id>nexus-snapshots</id>
+                    <name>nexus-snapshots</name>
+                    <url>${env.NEXUSREPO}/repository/maven-snapshots/</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 
 </project>
