@@ -1,0 +1,11 @@
+
+]squid:UnusedPrivateMethodp"3Remove this unused private "configureHttp4" method.(ø ¯ùÿÿÿÿ
+Isquid:S3510H"2Do not unconditionally return true in this method.(Òê¨
+¥squid:S1845%"ˆRename field "LOG" to prevent any misunderstanding/clash with field "log" defined in superclass "org.apache.camel.builder.RouteBuilder".(ùá‰‡üÿÿÿÿ
+vsquid:UselessImportCheck"MRemove this unused import 'org.apache.http.nio.conn.SchemeIOSessionStrategy'.(ˆéÆ¹şÿÿÿÿ
+Xsquid:UselessImportCheck"4Remove this unused import 'java.io.FileInputStream'.(˜³ÉÓ
+fsquid:UselessImportCheck"BRemove this unused import 'org.apache.http.ssl.SSLContextBuilder'.(ƒ ­
+Msquid:UselessImportCheck")Remove this unused import 'java.io.File'.(†Ğ¥Å
+nsquid:UselessImportCheck"JRemove this unused import 'org.apache.http.client.AuthenticationStrategy'.(®î¡‡
+wsquid:UselessImportCheck"SRemove this unused import 'org.apache.http.impl.nio.client.HttpAsyncClientBuilder'.(ÏßÑç
+?squid:S1148i"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
