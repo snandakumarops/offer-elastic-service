@@ -25,7 +25,7 @@
       <dependency>
         <groupId>org.jboss.redhat-fuse</groupId>
         <artifactId>fuse-springboot-bom</artifactId>
-        <version>2.23.2.fuse-740011-redhat-00001</version>
+        <version>7.4.0.fuse-740036-redhat-00002</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -52,7 +52,7 @@
     <dependency>
       <groupId>org.apache.camel.springboot</groupId>
       <artifactId>camel-elasticsearch-rest-starter</artifactId>
-      <version>RELEASE</version>
+      <version>2.23.2.fuse-740011-redhat-00001</version>
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
@@ -152,34 +152,5 @@
 
   </build>
 
-    <profiles>
-        <profile>
-            <id>openshift</id>
-            <repositories>
-
-                <repository>
-                    <id>maven-public</id>
-                    <name>maven-public</name>
-                    <url>${env.NEXUSREPO}/repository/maven-public/</url>
-                </repository>
-
-
-            </repositories>
-            <distributionManagement>
-
-                <repository>
-                    <id>nexus-releases</id>
-                    <name>nexus-releases</name>
-                    <url>${env.NEXUSREPO}/repository/maven-releases/</url>
-                    <layout>default</layout>
-                </repository>
-                <snapshotRepository>
-                    <id>nexus-snapshots</id>
-                    <name>nexus-snapshots</name>
-                    <url>${env.NEXUSREPO}/repository/maven-snapshots/</url>
-                </snapshotRepository>
-            </distributionManagement>
-        </profile>
-    </profiles>
 
 </project>
